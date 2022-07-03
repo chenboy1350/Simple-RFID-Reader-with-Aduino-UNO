@@ -4,57 +4,48 @@
 #define SS_PIN 10
 #define RST_PIN 9
 
-RFID rfid(SS_PIN, RST_PIN); 
+int led1 = 3;
+int led2 = 2;
 
-// Setup variables:
-    int serNum0;
-    int serNum1;
-    int serNum2;
-    int serNum3;
-    int serNum4;
-    String TagCard;
+RFID rfid(SS_PIN, RST_PIN); 
+int serNum0;
+int serNum1;
+int serNum2;
+int serNum3;
+int serNum4;
+String TagCard;
+
 void setup()
 { 
   Serial.begin(9600);
   SPI.begin(); 
   rfid.init();
-  
+  pinMode(led1, OUTPUT);
+  digitalWrite(led1,LOW);
+  pinMode(led2, OUTPUT);
+  digitalWrite(led2,LOW);
 }
 
 void loop()
 {
     
     if (rfid.isCard()) {
-        if (rfid.readCardSerial()) {
-            if (rfid.serNum[0] != serNum0 && rfid.serNum[1] != serNum1 && rfid.serNum[2] != serNum2 && rfid.serNum[3] != serNum3 && rfid.serNum[4] != serNum4) {
-                /* With a new cardnumber, show it. */
-                Serial.println(" ");
-                Serial.println("Card found");
-                TagCard = serNum0 = rfid.serNum[0];
-                TagCard += serNum1 = rfid.serNum[1];
-                TagCard += serNum2 = rfid.serNum[2];
-                TagCard += serNum3 = rfid.serNum[3];
-                TagCard += serNum4 = rfid.serNum[4];
-               
-                //Serial.println(" ");
-                Serial.println(TagCard);
-                Serial.print("HEX: ");
-    Serial.print(rfid.serNum[0],HEX);
-                Serial.print(", ");
-    Serial.print(rfid.serNum[1],HEX);
-                Serial.print(", ");
-    Serial.print(rfid.serNum[2],HEX);
-                Serial.print(", ");
-    Serial.print(rfid.serNum[3],HEX);
-                Serial.print(", ");
-    Serial.print(rfid.serNum[4],HEX);
-                Serial.println(" ");
-             } else {
-               /* If we have the same ID, just write a dot. */
-               Serial.print(".");
-             }
-          }
+      if (rfid.readCardSerial()) {
+        serNum0 = rfid.serNum[0];
+        serNum1 = rfid.serNum[1];
+        serNum2 = rfid.serNum[2];
+        serNum3 = rfid.serNum[3];
+        serNum4 = rfid.serNum[4];
+                  
+        TagCard =  String(serNum0, HEX);
+        TagCard +=  String(serNum1, HEX);
+        TagCard +=  String(serNum2, HEX);
+        TagCard +=  String(serNum3, HEX);
+        TagCard +=  String(serNum4, HEX);
+        Serial.println(TagCard);
+        delay(1000);
+        TagCard = "";
+      }
     }
-    
     rfid.halt();
 }
