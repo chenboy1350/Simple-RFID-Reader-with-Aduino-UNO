@@ -31,13 +31,14 @@ namespace Simple_RFID_Reader_with_Aduino_UNO
         {
             this.SuspendLayout();
             // 
-            // frmMainMenu
+            // FrmMainMenu
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(561, 462);
-            this.Name = "frmMainMenu";
+            this.Name = "FrmMainMenu";
             this.Text = "RFID Manager";
+            this.Load += new System.EventHandler(this.FrmMainMenu_Load);
             this.ResumeLayout(false);
 
         }
